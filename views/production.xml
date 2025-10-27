@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_production_tree" model="ir.ui.view">
+        <field name="name">production.status.tree</field>
+        <field name="model">production.status</field>
+        <field name="arch" type="xml">
+            <tree string="Production Status">
+                <field name="partner_name"/>
+                <field name="vendor_id"/>
+                <field name="buyer_order_no"/>
+                <field name="so_number"/>
+                <field name="product_id"/>
+                <field name="po_issue_date" widget="badge"/>
+                <field name="state" widget="badge"/>
+                <field name="sales_team_id"/>
+
+                
+                
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_production_form" model="ir.ui.view">
+        <field name="name">production.status.form</field>
+        <field name="model">production.status</field>
+        <field name="arch" type="xml">
+            <form string="production status">
+                <header>
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                    <h1><field name="production_status" readonly="1"/></h1>
+                        <h2 class="d_flex"> <field name="so_number" readonly="1"/>-<field name="buyer_order_no"/></h2>
+                    </div>
+                    <group>
+                        <group string="Salse Order">
+                            <field name="sale_order_id" options="{'no_create': True}"/>
+                            <field name="sale_order_line_id"/>
+                            <field name="buyer_product_code"/>
+                            <field name="po_issue_date"/>
+                            <field name="proforma_number" readonly="1"/>
+                            <field name="vendor_id"/>
+                            <field name="sales_team_id"/>
+                        </group>
+                        <group string="Vendor &amp; Sales Information">
+                            <field name="partner_name" options="{'no_create': True}"/>
+                            <field name="product_id"/>
+                            <field name="vendor_product_code"/>
+                            <field name="vendor_ex_date"/>
+                            <field name="buyer_order_no"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_production_search" model="ir.ui.view">
+        <field name="name">production.status.search</field>
+        <field name="model">production.status</field>
+        <field name="arch" type="xml">
+            <search string="production status">
+                <field name="partner_name"/>
+                <field name="buyer_order_no"/>
+                <field name="vendor_id"/>
+                <field name="sales_person_id"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Customer" name="group_customer" 
+                            context="{'group_by':'partner_name'}"/>
+                    <filter string="Vendor" name="group_vendor" 
+                            context="{'group_by':'vendor_id'}"/>
+                    <filter string="Sales Person" name="group_sales_person" 
+                            context="{'group_by':'sales_team_id'}"/>
+                    <filter string="Status" name="group_state" 
+                            context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_production" model="ir.actions.act_window">
+        <field name="name">production status</field>
+        <field name="res_model">production.status</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_draft': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first production status
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_production_root" 
+              name="production status" 
+              sequence="10"/>
+    
+    <menuitem id="menu_production" 
+              name="status Records" 
+              parent="menu_production_root" 
+              action="action_production" 
+              sequence="10"/>
+</odoo>

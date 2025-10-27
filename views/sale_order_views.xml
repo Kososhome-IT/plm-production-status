@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Server Action to View Merchant TnA from Sale Order -->
+    <record id="action_sale_order_view_merchant_tna" model="ir.actions.server">
+        <field name="name">View Merchant TnA</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records.action_view_merchant_tna()
+        </field>
+    </record>
+</odoo>
