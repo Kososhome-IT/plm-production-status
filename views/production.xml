@@ -14,9 +14,6 @@
                 <field name="po_issue_date" widget="badge"/>
                 <field name="state" widget="badge"/>
                 <field name="sales_team_id"/>
-
-                
-                
             </tree>
         </field>
     </record>
@@ -33,7 +30,7 @@
                 <sheet>
                     <div class="oe_title">
                     <h1><field name="production_status" readonly="1"/></h1>
-                        <h2 class="d_flex"> <field name="so_number" readonly="1"/>-<field name="buyer_order_no"/></h2>
+                        <h2 class="d_flex" style="display:flex;width:fit-content"> <field name="so_number" readonly="1"/>-<field name="buyer_order_no"/></h2>
                     </div>
                     <group>
                         <group string="Salse Order">
@@ -51,6 +48,7 @@
                             <field name="vendor_product_code"/>
                             <field name="vendor_ex_date"/>
                             <field name="buyer_order_no"/>
+                            <field name="quantity"/>
                         </group>
                     </group>
                 </sheet>
@@ -61,6 +59,43 @@
             </form>
         </field>
     </record>
+    <!-- Kanban View  -->
+    <record id="view_production_status_kanban" model="ir.ui.view">
+    <field name="name">production.status.kanban</field>
+    <field name="model">production.status</field>
+    <field name="arch" type="xml">
+      <kanban class="o_kanban_example">
+        <field name="state"/>
+        <field name="production_status"/>
+        <field name="sale_order_id"/>
+        <field name="partner_name"/>
+        <field name="product_id"/>
+        <templates>
+          <t t-name="kanban-box">
+            <div t-attf-class="oe_kanban_card oe_kanban_global_click o_kanban_record_state_#{record.state.raw_value}">
+              <div class="o_kanban_primary_left">
+                <div>
+                  <strong><field name="production_status"/></strong>
+                </div>
+                <div>
+                  <small><field name="sale_order_id"/></small>
+                </div>
+                <div>
+                  <small><field name="partner_name"/></small>
+                </div>
+                <div>
+                  <small><field name="product_id"/></small>
+                </div>
+              </div>
+              <div class="o_kanban_primary_right">
+                <span class="badge badge-info" t-esc="record.state.raw_value"/>
+              </div>
+            </div>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
 
     <!-- Search View -->
     <record id="view_production_search" model="ir.ui.view">
@@ -91,7 +126,7 @@
     <record id="action_production" model="ir.actions.act_window">
         <field name="name">production status</field>
         <field name="res_model">production.status</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">kanban,tree,form</field>
         <field name="context">{'search_default_draft': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

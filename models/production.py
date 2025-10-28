@@ -61,28 +61,9 @@ class ProductionStatus(models.Model):
     buyer_order_no = fields.Char(string='Buyer Order No', related='sale_order_id.cus_buyer_order_no',tracking=True)
     sales_person_id = fields.Many2one('res.users', string='Sales Person', tracking=True)
     
-    
-    _sql_constraints = [
-        ('unique_sale_order', 'UNIQUE(sale_order_id)', 
-         'A Merchant TnA record already exists for this Sale Order!')
-    ]
-    
     @api.model
     def create(self, vals):
         if vals.get('production_status', 'New') == 'New':
             vals['production_status'] = self.env['ir.sequence'].next_by_code('production.status') or 'New'
         return super(ProductionStatus, self).create(vals)
     
-    @api.constrains('sale_order_id')
-    def _check_unique_sale_order(self):
-        """Ensure only one TnA per Sale Order"""
-        for record in self:
-            if record.sale_order_id:
-                existing = self.search([
-                    ('sale_order_id', '=', record.sale_order_id.id),
-                    ('id', '!=', record.id)
-                ])
-                if existing:
-                    raise ValidationError(
-                        f'A Merchant TnA record already exists for Sale Order {record.sale_order_id.name}!'
-                    )
