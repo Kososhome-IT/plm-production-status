@@ -5,6 +5,7 @@
     'author': 'Akash Sagar',
     'category': 'Shipping',
     'depends': ['sale_management','product','inspection','contacts','base', 'sale', 'product','mail'],
+    'images':'plm-production-status/static/description/download.png',
     'data': [
         'security/ir.model.access.csv',
         'data/sequence.xml',
