@@ -138,7 +138,7 @@
     <!-- Menu Items -->
     <menuitem id="menu_production_root" 
               name="production status" 
-             web_icon="plm-production-status,static/description/download.png" sequence="10"/>
+             web_icon="plm-production-status-main,static/description/download.png" sequence="10"/>
     
     <menuitem id="menu_production" 
               name="status Records" 
